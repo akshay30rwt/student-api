@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Student = require('./models/Student');
 const errorHandler = require('./middleware/errorHandler');
 const validate = require('./middleware/validate');
-const studentSchema = require('./validators/studentValidator');
+const { studentSchema } = require('./validators/studentValidator');
 const AppError = require('./utils/AppError');
 
 const app = express();
