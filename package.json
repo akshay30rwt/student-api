@@ -12,6 +12,7 @@
   "description": "",
   "dependencies": {
     "express": "^5.2.1",
+    "joi": "^18.2.3",
     "mongoose": "^9.7.1"
   },
   "devDependencies": {
