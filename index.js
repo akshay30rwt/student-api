@@ -104,6 +104,34 @@ app.get('/students/:id', async (req, res, next) => {
     }
 });
 
+app.get('/students/summary/grades', async (req, res, next) => {
+    try {
+        const students = await Student.aggregate([
+            {
+                $group: {
+                    _id: '$grade',
+                    count: { $sum: 1 },
+                    avgAge: { $avg: '$age' }
+                }
+            },
+            { $sort: { count: 1 } },
+            {
+                $project: {
+                    _id: 0,
+                    grade: '$_id',
+                    count: 1,
+                    avgAge: { $round: [ '$avgAge', 2 ] }
+                }
+            }
+        ]);
+        
+        return res.status(200).json(students);
+    }
+    catch(err) {
+        next(err);
+    }
+});
+
 app.use(errorHandler);
 
 app.listen(PORT, () => {
