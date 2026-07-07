@@ -132,6 +132,36 @@ app.get('/students/summary/grades', async (req, res, next) => {
     }
 });
 
+app.get('/students/summary/age', async (req, res, next) => {
+    try {
+        const students = await Student.aggregate([
+            {
+                $group: {
+                    _id: null,
+                    maxAge: { $max: '$age' },
+                    minAge: { $min: '$age' },
+                    avgAge: { $avg: '$age' }
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    maxAge: 1,
+                    minAge: 1,
+                    avgAge: {
+                        $round: ['$avgAge', 2]
+                    }
+                }
+            }
+        ]);
+
+        return res.status(200).json(students);
+    }
+    catch(err) {
+        next(err);
+    }
+});
+
 app.use(errorHandler);
 
 app.listen(PORT, () => {
