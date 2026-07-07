@@ -6,4 +6,4 @@ const studentSchema = Joi.object({
     grade: Joi.string().min(1).max(2).required()
 });
 
-module.exports = studentSchema;
+module.exports = { studentSchema };
